@@ -21,7 +21,7 @@
         <p class="warning" v-if="!inputedPost">Nhập đầy đủ thông tin</p>
         <div class="form-buttons">
             <router-link @click="clickAdd" class="form-button blue" to="/">Submit</router-link>
-            <router-link class="form-button red" v-if="inputedPost" to="/">Cancel</router-link>
+            <router-link @click="clickCancel" class="form-button red" v-if="inputedPost" to="/">Cancel</router-link>
         </div>
 
     </div>
@@ -57,6 +57,9 @@ export default {
             } else {
                 this.inputedPost = false
             }
+        },
+        clickCancel() {
+            this.$store.commit("EDIT_POST", {})
         }
     },
     computed: {

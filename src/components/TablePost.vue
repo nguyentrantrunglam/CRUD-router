@@ -17,7 +17,7 @@
                     <th>#</th>
                     <th>Title</th>
                     <th>Body</th>
-                    <th>UserID</th>
+                    <th>UID</th>
                     <th>Actions</th>
                 </tr>
                 <tr v-for="post in posts.filter((e, index) => index >= (page - 1) * 10 && index < page * 10)"
