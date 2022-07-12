@@ -14,7 +14,7 @@
             <textarea v-model="post.body" class="form-input-body" id="body"></textarea>
         </label>
         <label class="form-item" for="userid">
-            <p class="form-title">UserID:</p>
+            <p class="form-title">User:</p>
             <input v-model="post.userId" class="form-input" id="userid" type="text" />
         </label>
 
