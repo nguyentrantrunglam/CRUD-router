@@ -6,10 +6,16 @@ export default createStore({
   state: {
     posts: [],
     selectedPost: {},
-    page: 1
+    page: 1,
+    array: []
   },
   getters: {
-
+    pageArray(state) {
+      for (let i = 0; i < state.posts.length / 10; i++) {
+        state.array[i] = i + 1
+      }
+      return state.array
+    }
   },
   mutations: {
     SET_PAGE(state, value) {

@@ -14,27 +14,31 @@
         <div class="wrap">
             <table id="posts">
                 <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Body</th>
-                    <th>UID</th>
-                    <th>Actions</th>
+                    <th class="row-id">#</th>
+                    <th class="row-title">Title</th>
+                    <th class="row-body">Body</th>
+                    <th class="row-uid">UID</th>
+                    <th class="row-action">Actions</th>
                 </tr>
                 <tr v-for="post in posts.filter((e, index) => index >= (page - 1) * 10 && index < page * 10)"
                     v-bind:key="post.id">
-                    <td>{{ post.id }}</td>
-                    <td>{{ post.title }}</td>
-                    <td>{{ post.body }}</td>
-                    <td>{{ post.userId }}</td>
-                    <td class="actions">
-                        <router-link class="link-button blue" @click="clickEdit(post)" to="/post">Edit</router-link>
-                        <button class="button-form red" @click="clickDelete(post)">Delete</button>
+                    <td class="row-id">{{ post.id }}</td>
+                    <td class="row-title">{{ post.title }}</td>
+                    <td class="row-body">{{ post.body }}</td>
+                    <td class="row-uid">{{ post.userId }}</td>
+                    <td class="row-action ">
+                        <div class='action'>
+                            <router-link class="link-button blue" @click="clickEdit(post)" to="/post">Edit</router-link>
+                            <button class="button-form red" @click="clickDelete(post)">Delete</button>
+                        </div>
                     </td>
                 </tr>
             </table>
         </div>
         <div class="control-buttons">
             <button class="control-button" @click="prevPage">Previous</button>
+            <button class="control-button" v-for="page in pageArray" @click="clickPage(page)" v-bind:key="page">{{ page
+            }}</button>
             <button class="control-button" @click="nextPage">Next</button>
 
         </div>
@@ -42,6 +46,8 @@
 </template>
 
 <script>
+
+
 export default {
     name: "TablePost",
     data() {
@@ -51,6 +57,9 @@ export default {
         }
     },
     methods: {
+        clickPage(page) {
+            this.page = page
+        },
         nextPage() {
             if (this.page < (this.posts.length / 10)) {
                 this.page = this.page + 1
@@ -102,13 +111,43 @@ export default {
             },
         }
         ,
+        pageArray: {
+            get() {
+                return this.$store.getters.pageArray;
+            }
+
+        }
 
     },
+    watch: {
+
+    }
 
 }
 </script>
 
 <style scoped>
+.row-id {
+    width: 3%;
+}
+
+.row-title {
+    width: 40%;
+}
+
+.row-body {
+    width: 50%;
+}
+
+.row-uid {
+    width: 3%;
+}
+
+.action {
+    display: flex;
+
+}
+
 .tablepost {
     height: 100vh;
 }
@@ -130,23 +169,31 @@ export default {
 
 .control-button {
     height: 24px;
-    width: 80px;
+    font-size: 16px;
+    background: #04AA6D;
+    border: 1px solid #04AA6D;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .control-buttons {
+    width: 25%;
     height: 24px;
-    width: fit-content;
-    margin-left: 45%;
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
 }
 
 .link-button {
     background: #000;
-    padding: 6px !important;
-    margin: 0px 2px !important;
+    padding: 8px 7px 7px 7px !important;
+    margin-right: 5px;
     text-decoration: none;
     color: white;
     background: mediumblue;
     border-radius: 5px;
+    font-size: 13px;
 }
 
 .wrap {
@@ -204,9 +251,7 @@ export default {
     z-index: 0;
 }
 
-.actions {
-    display: flex;
-}
+
 
 .popup {
     position: absolute;
