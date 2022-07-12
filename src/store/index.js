@@ -5,11 +5,16 @@ import axios from 'axios'
 export default createStore({
   state: {
     posts: [],
-    selectedPost: {}
+    selectedPost: {},
+    page: 1
   },
   getters: {
+
   },
   mutations: {
+    SET_PAGE(state, value) {
+      state.page = value
+    },
     ADD_POST(state, value) {
       let check = state.posts.some((c) => c.id == value.id)
       let index = state.posts.findIndex((c) => c.id == value.id)

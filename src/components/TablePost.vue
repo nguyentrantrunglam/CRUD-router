@@ -20,7 +20,8 @@
                     <th>UserID</th>
                     <th>Actions</th>
                 </tr>
-                <tr v-for="post in posts" v-bind:key="post.id">
+                <tr v-for="post in posts.filter((e, index) => index >= (page - 1) * 10 && index < page * 10)"
+                    v-bind:key="post.id">
                     <td>{{ post.id }}</td>
                     <td>{{ post.title }}</td>
                     <td>{{ post.body }}</td>
@@ -31,6 +32,11 @@
                     </td>
                 </tr>
             </table>
+        </div>
+        <div class="control-buttons">
+            <button class="control-button" @click="prevPage">Previous</button>
+            <button class="control-button" @click="nextPage">Next</button>
+
         </div>
     </div>
 </template>
@@ -45,6 +51,20 @@ export default {
         }
     },
     methods: {
+        nextPage() {
+            if (this.page < (this.posts.length / 10)) {
+                this.page = this.page + 1
+            } else {
+                this.page = this.posts.length / 10
+            }
+        },
+        prevPage() {
+            if (this.page != 1) {
+                this.page = this.page - 1
+            } else {
+                this.page = 1
+            }
+        },
         clickDelete(post) {
             this.postDelete = post.id
             this.popupDisplay = 'block'
@@ -73,6 +93,15 @@ export default {
                 this.$store.commit("SET_POSTS", value);
             },
         },
+        page: {
+            get() {
+                return this.$store.state.page;
+            },
+            set(value) {
+                this.$store.commit("SET_PAGE", value);
+            },
+        }
+        ,
 
     },
 
@@ -99,6 +128,17 @@ export default {
     border-radius: 12px;
 }
 
+.control-button {
+    height: 24px;
+    width: 80px;
+}
+
+.control-buttons {
+    height: 24px;
+    width: fit-content;
+    margin-left: 45%;
+}
+
 .link-button {
     background: #000;
     padding: 6px !important;
@@ -110,8 +150,7 @@ export default {
 }
 
 .wrap {
-
-    max-height: 83%;
+    max-height: 80%;
     overflow-y: scroll;
 }
 
